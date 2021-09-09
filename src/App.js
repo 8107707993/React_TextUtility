@@ -7,15 +7,17 @@ import Alert from './components/Alert';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import Aboutus from './components/Aboutus';
 
 
 function App() {
+  
   const[mode, setMode] = useState('light');
   const [alert, setAlert] = useState(null);
+
+  document.body.style.backgroundColor=mode === 'dark'?'#495057':'#e8edf3'
 
   const showAlert =(message, type)=>{
       setAlert({
@@ -40,13 +42,15 @@ function App() {
     }
   }
   return (
+    
   < >
+  
   <Router>
    <Navbar title="Bloger" mode ={mode} toggleMode={toggleMode}/>
    <Alert alert={alert}/>
    <Switch>
-          <Route exact path="/aboutus">
-           <Aboutus/>
+          <Route exact path="/aboutus"> 
+           <Aboutus mode={mode}/>
           </Route>
          
           <Route exact path="/">

@@ -28,6 +28,7 @@ export default function Textform(props) {
     var text = document.getElementById('textutilsAria');
     text.select();
     navigator.clipboard.writeText(text.value);
+    document.getSelection().removeAllRanges();
     props.showAlert("Copied to Clipbord", "success");
     }
 
@@ -52,33 +53,35 @@ export default function Textform(props) {
     return (
   <>
     <div className="container" style={{color:props.mode === 'dark'?'white':'black'}}>
-      <div className="row my-4">
-        <div className="mb-3 my-2 col-sm-8">
-          <div className=" row">
-            <label label htmlFor="exampleFormControlTextarea1" className="form-labe col-sm-5"><h1>Text Utility</h1></label>
-            <p className="col-sm-4"><b>{text.split(" ").length}</b> Words and <b>{text.length}</b> characters</p>
-            <p className="col-sm-3"><b>{0.008*text.split(" ").length} </b>Minuts Read</p>
+      <div className=" my-4">
+        <div className="mb-3 my-2 ">
+          <div className="row">
+            <label label htmlFor="exampleFormControlTextarea1" className="form-labe"><h1>Text Utility</h1></label>
+            <p className="col-sm-6"><b>{text.split(" ").filter((element)=>{return element.length!==0}).length}</b> Words and <b>{text.length}</b> characters</p>
+            <p className="col-sm-6"><b>{0.008*text.split(" ").filter((element)=>{return element.length!==0}).length} </b>Minuts Read</p>
           </div>
             <textarea className="form-control" value={text} style={{color:props.mode === 'dark'?'white':'black', backgroundColor:props.mode === 'dark'?'#495057':'#e8edf3'}} onChange={handleOnChange} id="textutilsAria" rows="7" placeholder="Enter Text Here...."></textarea>
+        
+           
+        <div className="my-2 col-sm-8">
+          <button className="btn btn-info my-1" disabled={text.length===0} onClick={handleUpClick}>All Uppercase</button>
+          <button className="btn btn-info mx-2 my-1" disabled={text.length===0} onClick={handleLowClick}>Lowercase</button>
+          <button className="btn btn-info mx-2 my-1" disabled={text.length===0} onClick={handleExtraSpaces}>Remove Extra Spaces</button>
+          <button className="btn btn-info mx-2 my-1" disabled={text.length===0} onClick={handleCopy}>Copy Text</button>
+          
         </div>
-        <div className=" my-2 col-sm-4">
+        <div className=" col-sm-8">
+          <button className="btn btn-info my-1" disabled={text.length===0} onClick={handleFUpClick}>First Letter Uppercase</button>  
+           <button className="btn btn-info mx-2 my-1" disabled={text.length===0} onClick={handleClear}>Clear Text</button>
+          
+        </div>
+        
+        <div className=" my-2 ">
           <h1>Preview</h1>
           <p>{text.length>0?text:"Enter text in the textbox to preview it here....."}</p>
         </div>
       </div>
-      <div className=" row ">
-        <div className="my-2 col-sm-8">
-          <button className="btn btn-info" onClick={handleUpClick}>All Uppercase</button>
-          <button className="btn btn-info mx-2" onClick={handleLowClick}>Lowercase</button>
-          <button className="btn btn-info mx-2" onClick={handleExtraSpaces}>Remove Extra Spaces</button>
-          <button className="btn btn-info mx-2" onClick={handleCopy}>Copy Text</button>
-          
-        </div>
-        <div className=" col-sm-8">
-          <button className="btn btn-info" onClick={handleFUpClick}>First Letter Uppercase</button>  
-           <button className="btn btn-info mx-2" onClick={handleClear}>Clear Text</button>
-          
-        </div>
+     
       </div>
     </div>
   </>
